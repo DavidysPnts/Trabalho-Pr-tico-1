@@ -11,20 +11,20 @@
 class Reservation {
 private:
     int id_;
-    Guest* guest_;
-    Room* room_;
+    Guest& guest_;
+    Room& room_;
     int nights_;
     std::vector<ConsumptionProduct> products_;
 
 public:
-    Reservation(int id, Guest* guest, Room* room, int nights)
+    Reservation(int id, Guest& guest, Room& room, int nights)
         : id_(id), guest_(guest), room_(room), nights_(nights) {
-        room_->set_occupied(true);
+        room_.set_occupied(true);
         std::cout << "Reservation(" << id_ << ") criada\n";
     }
 
     ~Reservation() {
-        room_->set_occupied(false);
+        room_.set_occupied(false);
         std::cout << "~Reservation(" << id_ << ") destruida\n";
     }
 
@@ -38,7 +38,7 @@ public:
 
     // Calcula o total da reserva: diárias + produtos
     float calculate_total() const {
-        float total = room_->get_price_per_night() * nights_;
+        float total = room_.get_price_per_night() * nights_;
         for (const auto& p : products_) {
             total += p.get_price();
         }
@@ -48,8 +48,8 @@ public:
     // Exibe o resumo da reserva
     void display_summary() const {
         std::cout << "Reserva #" << id_ << "\n";
-        std::cout << "  Hospede: " << guest_->get_name() << "\n";
-        std::cout << "  Quarto: " << room_->get_number()
+        std::cout << "  Hospede: " << guest_.get_name() << "\n";
+        std::cout << "  Quarto: " << room_.get_number()
                   << " | " << nights_ << " noite(s)\n";
         std::cout << "  Produtos consumidos:\n";
         for (const auto& p : products_) {

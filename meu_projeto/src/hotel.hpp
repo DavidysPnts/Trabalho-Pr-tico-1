@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <memory>
 #include "room.hpp"
 #include "guest.hpp"
 
@@ -11,8 +12,8 @@
 class Hotel {
 private:
     std::string name_;
-    std::vector<Room*> rooms_;
-    std::vector<Guest*> guests_;
+    std::vector<std::shared_ptr<Room>> rooms_;
+    std::vector<std::shared_ptr<Guest>> guests_;
 
 public:
     Hotel(std::string name)
@@ -28,12 +29,12 @@ public:
     std::string get_name() const { return name_; }
 
     // Adiciona um quarto ao hotel (agregação)
-    void add_room(Room* room) {
+    void add_room(std::shared_ptr<Room> room) {
         rooms_.push_back(room);
     }
 
     // Adiciona um hóspede ao hotel (agregação)
-    void add_guest(Guest* guest) {
+    void add_guest(std::shared_ptr<Guest> guest) {
         guests_.push_back(guest);
     }
 

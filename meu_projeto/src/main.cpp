@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 #include "hotel.hpp"
 #include "guest.hpp"
 #include "room.hpp"
@@ -10,18 +11,18 @@ int main() {
     Hotel hotel("Palace Hotel");
 
     // Criando quartos
-    Room room1(101, 150.0);
-    Room room2(102, 200.0);
+    auto room1 = std::make_shared<Room>(101, 150.0);
+    auto room2 = std::make_shared<Room>(102, 200.0);
 
     // Criando hóspedes
-    Guest guest1("Davidys Pontes", "123.456.789-00");
-    Guest guest2("Carlos Silva", "987.654.321-00");
+    auto guest1 = std::make_shared<Guest>("Davidys Pontes", "123.456.789-00");
+    auto guest2 = std::make_shared<Guest>("Carlos Silva", "987.654.321-00");
 
     // Adicionando quartos e hóspedes ao hotel (agregação)
-    hotel.add_room(&room1);
-    hotel.add_room(&room2);
-    hotel.add_guest(&guest1);
-    hotel.add_guest(&guest2);
+    hotel.add_room(room1);
+    hotel.add_room(room2);
+    hotel.add_guest(guest1);
+    hotel.add_guest(guest2);
 
     hotel.display_status();
     std::cout << "\n";
@@ -31,7 +32,7 @@ int main() {
     // Ao sair do bloco, a reserva é destruída junto com seus produtos
     std::cout << "---- Demonstracao de Composicao ----\n";
     {
-        Reservation reservation(1, &guest1, &room1, 3);
+        Reservation reservation(1, *guest1, *room1, 3);
         reservation.add_product(ConsumptionProduct("Cafe da manha", 25.0));
         reservation.add_product(ConsumptionProduct("Servico de quarto", 45.0));
         reservation.display_summary();
@@ -43,8 +44,8 @@ int main() {
     // Room e Guest existem independentemente da Reservation
     std::cout << "---- Demonstracao de Agregacao ----\n";
     std::cout << "Quarto e hospede ainda existem apos destruicao da reserva:\n";
-    room1.display_info();
-    guest1.display_info();
+    room1->display_info();
+    guest1->display_info();
 
     std::cout << "\n";
     return 0;
