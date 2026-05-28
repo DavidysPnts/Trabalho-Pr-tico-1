@@ -1,1 +1,1 @@
-# Trabalho-Pr-tico-1
+# Trabalho-Pratico-1 - C++
