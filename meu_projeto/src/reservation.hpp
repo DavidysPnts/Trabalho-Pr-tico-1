@@ -32,8 +32,8 @@ public:
     int get_id() const { return id_; }
 
     // Adiciona um produto de consumo à reserva
-    void add_product(ConsumptionProduct product) {
-        products_.push_back(product);
+    void add_product(const ConsumptionProduct& product) {
+        products_.emplace_back(product);
     }
 
     // Calcula o total da reserva: diárias + produtos
